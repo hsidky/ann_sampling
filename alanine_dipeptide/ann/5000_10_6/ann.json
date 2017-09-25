@@ -30,7 +30,8 @@
             "upper_bounds" : [4, 4],
             "lower_bound_restraints" : [0, 0],
             "upper_bound_restraints" : [0, 0],
-            "output_file" : "ann.dat"
+            "output_file" : "ann.dat",
+            "converge_iters" : 1500000
         }
     ],
     "logger" : {

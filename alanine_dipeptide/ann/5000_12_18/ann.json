@@ -16,8 +16,8 @@
     "methods" : [
         {
             "type" : "ANN", 
-            "topology" : [10, 6],
-            "nsweep" : 10000, 
+            "topology" : [12, 8],
+            "nsweep" : 5000, 
             "overwrite_output" : false,
             "temperature" : 298.15,
             "grid" : {

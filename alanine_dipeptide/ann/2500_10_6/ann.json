@@ -17,7 +17,7 @@
         {
             "type" : "ANN", 
             "topology" : [10, 6],
-            "nsweep" : 10000, 
+            "nsweep" : 2500, 
             "overwrite_output" : false,
             "temperature" : 298.15,
             "grid" : {
@@ -31,7 +31,8 @@
             "lower_bound_restraints" : [0, 0],
             "upper_bound_restraints" : [0, 0],
             "output_file" : "ann.dat",
-            "converge_iters" : 1500000
+            "converge_iters" : 1500000,
+            "min_loss" : 0.001
         }
     ],
     "logger" : {
