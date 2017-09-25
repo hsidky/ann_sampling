@@ -75,7 +75,7 @@ plots of the free energy surface at 5, 10 and 20 nanoseconds. As with the ANN sa
 <img src="alanine_dipeptide/meta/meta_10.0ns.png" />
 <img src="alanine_dipeptide/meta/meta_20.0ns.png" />
 
-It is clear that the FES is not yet fully sampled at 10 nanoseconds, and at 20ns, still ahs the exaggerated feature around (0, 0), 
+It is clear that the FES is not yet fully sampled at 10 nanoseconds, and at 20ns, there is an exaggerated feature around (0, 0), 
 which takes another 20 nanoseconds to resolve. The convergence time we find is commensurate with the amount of time reported in the 
 paper (40ns flooding, 20ns averaging interval). The authors mention in their work that they chose their parameters "on the basis of our previous experience and the pilot calculations as a compromise between a fine resolution and the computational cost." We point this out because if you are unhappy with the the choice of parameters then this only reinforces the strength of ANN sampling: 
 
