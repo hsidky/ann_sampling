@@ -89,12 +89,13 @@ Standard metadynamics was run with hill widths of (0.30, 0.30) radians, a hill h
 0.3 kJ/mol and a drop rate of 2 ps. The hills were evaluated on a 500x500 grid. These 
 parameters were adapted from 
 [Vymětal, J., & Vondrášek, J. (2010). J Phys Chem B, 114(16), 5632–5642.](https://doi.org/10.1021/jp100950w) 
-Below are plots of the free energy surface at 5, 10 and 20 nanoseconds. As with the ANN 
+Below are plots of the free energy surface at 5, 10, 20 and 40 nanoseconds. As with the ANN 
 sampling plots, they are not averaged.
 
 <img src="alanine_dipeptide/meta/meta_5.0ns.png" />
 <img src="alanine_dipeptide/meta/meta_10.0ns.png" />
 <img src="alanine_dipeptide/meta/meta_20.0ns.png" />
+<img src="alanine_dipeptide/meta/meta_40.0ns.png" />
 
 It is clear that the FES is not yet fully sampled at 10 nanoseconds, and at 20ns, there 
 is an exaggerated feature around (0, 0), which takes another 20 nanoseconds to resolve. 
@@ -119,21 +120,40 @@ For more on the metadynamics data and analysis, check out the
 
 ABF was run on a 31x31 grid with a linear ramp interval of 100 hits per bin. Beyond these 
 two parameters, there really aren't any other parameters to specify. Below are the figures 
-for ABF at 5, 10 and 20 nanoseconds. 
+for ABF at 5, 10, 20 and 40 nanoseconds. 
 
 <img src="alanine_dipeptide/abf/abf_5.0ns.png" />
 <img src="alanine_dipeptide/abf/abf_10.0ns.png" />
 <img src="alanine_dipeptide/abf/abf_20.0ns.png" />
+<img src="alanine_dipeptide/abf/abf_40.0ns.png" />
 
-ABF looks like it does does better than metadnyamics, but still takes some time to correct 
-the central distortion (see main paper for details on this). In fact, we find that 
-metadynamics handles this better than ABF, requiring less time to resolve. The reason for 
-this is ABF accumulates an average of the mean force at each bin, which requires a 
-substantial number of hits to correct once ADP is able to access the proper conformation 
-at (0,0).
+ABF looks like it does does better than metadnyamics early on, but still takes some time 
+to correct the central distortion. In fact, we find that metadynamics handles this better 
+than ABF, requiring less time to resolve. The reason for this is ABF accumulates an average 
+of the mean force at each bin, which requires a substantial number of hits to correct once 
+ADP is able to access the proper conformation at (0,0).
 
 For more on the ABF data and analysis, check out the 
 [Jupyter notebook](alanine_dipeptide/abf/abf_plot_data.ipynb).
+
+### Variationally enhanced sampling
+
+Variationally enhanced sampling (VES) was run using [plumed-ves](github.com/ves-code/plumed2-ves)
+patched into Gromacs 2016.3. Order 15 Fourier series were used along each dimension with a 
+31x31 grid and a stride of 500. The plumed input file can be found 
+[here](alanine_dipeptide/ves/plumed.dat). Below are the figures for VES at 5, 10, 20, and 40 
+nanoseconds.
+
+<img src="alanine_dipeptide/ves/ves_5.0ns.png" />
+<img src="alanine_dipeptide/ves/ves_10.0ns.png" />
+<img src="alanine_dipeptide/ves/ves_20.0ns.png" />
+<img src="alanine_dipeptide/ves/ves_40.0ns.png" />
+
+VES performs better than ABF and similar (perhaps a bit faster) than metadynamics. 
+The parameters used for the VES optimizer were not necessarily optimal, and were set based on 
+examples in the documentation. Keep in mind as well, that the power of VES lies not 
+necessarily in the speed of convergence alone, but in the many features allowed by it 
+such as targeted probability distributions and high dimensional sampling.
 
 
 ### Remarks 

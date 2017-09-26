@@ -1,0 +1,46 @@
+# set up two variables for Phi and Psi dihedral angles 
+phi: TORSION ATOMS=5,7,9,15
+psi: TORSION ATOMS=7,9,15,17	
+
+# Define basis functions. 
+BF_FOURIER ...
+ ORDER=15
+ INTERVAL_MIN=-pi
+ INTERVAL_MAX=pi
+ LABEL=bf1
+... BF_FOURIER
+
+BF_FOURIER ...
+ ORDER=15
+ INTERVAL_MIN=-pi
+ INTERVAL_MAX=pi
+ LABEL=bf2
+... BF_FOURIER
+
+# Target a uniform distribution
+td_uniform: TD_UNIFORM
+
+# Define expansion.
+VES_LINEAR_EXPANSION ...
+ ARG=phi,psi
+ BASIS_FUNCTIONS=bf1,bf2
+ LABEL=b1
+ TEMP=298.15
+ GRID_BINS=31,31
+ TARGET_DISTRIBUTION=td_uniform
+... VES_LINEAR_EXPANSION
+
+# Optimization algorithm
+OPT_AVERAGED_SGD ...
+  BIAS=b1
+  STRIDE=500
+  LABEL=o1
+  STEPSIZE=0.5
+  FES_OUTPUT=10
+  BIAS_OUTPUT=10
+  COEFFS_OUTPUT=10
+... OPT_AVERAGED_SGD
+
+PRINT ARG=* STRIDE=1000 FILE=COLVAR
+
+

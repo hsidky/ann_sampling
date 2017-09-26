@@ -102,4 +102,5 @@ ENV/
 
 # Executables
 gmx
+gmx_mpi
 ssages
