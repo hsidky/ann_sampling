@@ -1,0 +1,37 @@
+{
+    "walkers" : 1, 
+    "args" : ["-nsteps", "50000000", "-v", "-deffnm", "adp"],
+    "CVs" : [
+        {
+            "type" : "Torsional",
+            "periodic" : true, 
+            "atom_ids" : [5, 7, 9, 15]
+        },
+        {
+            "type" : "Torsional",
+            "periodic" : true,
+            "atom_ids" : [7, 9, 15, 17]
+        }
+    ],
+    "methods" : [
+        {
+            "type" : "ABF", 
+            "CV_lower_bounds" : [-3.141592653589793, -3.141592653589793],
+            "CV_periodic_boundary_lower_bounds" : [-3.141592653589793, -3.141592653589793],
+            "CV_upper_bounds" : [3.141592653589793, 3.141592653589793], 
+            "CV_periodic_boundary_upper_bounds" : [3.141592653589793, 3.141592653589793], 
+            "CV_restraint_minimums" : [-4, -4],
+            "CV_restraint_maximums" : [ 4,  4],
+            "CV_restraint_spring_constants" : [0, 0],
+            "CV_bins" : [30, 30],
+            "CV_isperiodic" : [true, true],
+            "timestep" : 0.002,
+            "unit_conversion" : 1.0,
+            "output_frequency" : 10000
+        }
+    ],
+    "logger" : {
+        "output_file" : "cvs.dat", 
+        "frequency" : 100
+    }
+}
