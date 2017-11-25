@@ -1,0 +1,52 @@
+{
+    "walkers" : 1, 
+    "args" : [ "-v", "-deffnm", "nvt"],
+    "CVs" : [
+        {
+            "type" : "Torsional",
+            "periodic" : true, 
+            "atom_ids" : [5, 7, 9, 15]
+        },
+        {
+            "type" : "Torsional",
+            "periodic" : true,
+            "atom_ids" : [7, 9, 15, 17]
+        },
+        {
+            "type" : "Torsional",
+            "periodic" : true,
+            "atom_ids" : [15, 17, 19, 25]
+        },
+        {
+            "type" : "Torsional",
+            "periodic" : true,
+            "atom_ids" : [17, 19, 25, 27]
+        }
+    ],
+    "methods" : [
+        {
+            "type" : "ANN", 
+            "topology" : [24, 20],
+            "nsweep" : 10000, 
+            "overwrite_output" : false,
+            "temperature" : 298.15,
+            "grid" : {
+                "lower" : [-3.141592653589793, -3.141592653589793, -3.141592653589793, -3.141592653589793],
+                "upper" : [3.141592653589793, 3.141592653589793, 3.141592653589793, 3.141592653589793], 
+                "number_points" : [20, 20, 20, 20],
+                "periodic" : [true, true, true, true]
+            },
+            "lower_bounds" : [-4, -4, -4, -4],
+            "upper_bounds" : [4, 4, 4, 4],
+            "lower_bound_restraints" : [0, 0, 0, 0],
+            "upper_bound_restraints" : [0, 0, 0, 0],
+            "output_file" : "ann.dat",
+	        "max_iters" : 10,
+	        "weight" : 0.2
+        }
+    ],
+    "logger" : {
+        "output_file" : "cvs.dat", 
+        "frequency" : 1000
+    }
+}
