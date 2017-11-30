@@ -4,8 +4,9 @@ This repository contains supplementary run files, data and analysis scripts used
 Jonathan K. Whitmer. 
 
 ## What's inside? 
-- Gromacs topology, configuration and run parameters.
+- Gromacs and LAMMPS topology, configuration and run parameters.
 - SSAGES input files for ANN sampling, metadynamics and adaptive biasing force (ABF).
+- Plumed 2 input files for variationally enhanced sampling. 
 - Select output free energy surfaces for plotting.
 - Jupyter notebooks containing analysis and plotting code. 
 
@@ -13,10 +14,10 @@ Jonathan K. Whitmer.
 ADP is a standard system used to benchmark free energy methods. The two dihedrals forming 
 the Ramachandran plot, phi and psi, are used as collective variables (CVs). In this 
 example, we estimate the two-dimensional free energy landscapes for ADP in water using 
-three different methods: ANN sampling (proposed method), metadynamics, and adaptive biasing 
-force (ABF). It's important to note that we simulate *ADP in water*, as opposed to *vacuum*. 
-The dynamics are more complicated and biasing on the two mentioned CVs can really highlight 
-the strengths/weaknesses of a method. 
+four different methods: ANN sampling (proposed method), metadynamics, adaptive biasing 
+force (ABF), and variationally enhanced sampling. It's important to note that we simulate 
+*ADP in water*, as opposed to *vacuum*. The dynamics are slower and biasing on the two 
+mentioned CVs can highlight the strengths/weaknesses of a method. 
 
 Simulations were run using a private branch of [SSAGES](https://github.com/MICCoM/SSAGES-public) 
 v0.7.5 compiled against 
@@ -61,8 +62,8 @@ For more plots, and illustration of convergence, and details on the analysis che
 that the [8, 4] networks struggle a bit more than the other examples, especially with a 
 larger stride. This represents the limit of small network for this system, which contains 
 *just* (or maybe not) enough flexibility to appropriately capture the FES. In a realistic 
-applcication where the complexity of the free energy landscape is unknown, a user would 
-specify an aribitrarily large network which would self-regularize. Here we were interested 
+application where the complexity of the free energy landscape is unknown, a user would 
+specify an arbitrarily large network which would self-regularize. Here we were interested 
 in identifying the minimum network size necessary for a reasonable representation of the 
 surfaces.
 
@@ -155,17 +156,40 @@ examples in the documentation. Keep in mind as well, that the power of VES lies 
 necessarily in the speed of convergence alone, but in the many features allowed by it 
 such as targeted probability distributions and high dimensional sampling.
 
+## Rouse modes of an ideal Gaussian chain 
 
-### Remarks 
+This example uses the first three 
+[Rouse modes](http://www.eng.uc.edu/~beaucag/Classes/Physics/DynChapter6html/Chapter6.html)
+of an ideal Gaussian chain, whose free energy is known analytically. The three-dimensional 
+free energy volume is resolved using ANN sampling and compared against the analytical 
+results by integrating out each of the two dimensions. The results are shown below: 
 
-The example of ADP in water, although simple, is a good for demonstrating the convergence 
-and robustness of ANN sampling compared to existing methods. It is known that the chosen 
-dihedrals are not the precise "slow modes" of solvated ADP. Using 
-[genetic artificial neural networks](https://doi.org/10.1021/jp045546c) it was shown that 
-solute-solvent coupling plays a role in the C7 -> alpha_R transition. Also, using 
-[variational conformational dynamics](https://arxiv.org/pdf/1703.08777.pdf), the theta 
-dihedral was found to contribute to the slow mode of ADP in vacuum. Hopefully this has 
-made it abundantly clear how powerful ANN sampling can be, how forgiving it is to the end 
-user, its dramatically fast convergence and how it is well suited for expensive simulations 
-or less-than-deal CVs. We hope ANN sampling becomes a staple advanced sampling routine 
-in the molecular modeler's toolkit.
+<img src="polymer_rouse/rouse_x1.png" />
+<img src="polymer_rouse/rouse_x2.png" />
+<img src="polymer_rouse/rouse_x3.png" />
+
+We can see that exact agreement is achieved with ANN sampling which demonstrates the correctness 
+of the method and its ability to resolve higher dimensional surfaces. 
+
+## Backbone dihedrals of alanine tripeptide in vacuum
+
+Alanine tripeptide (Ace-Ala-Ala-Nme) has four primary dihedrals making up two 
+psi-phi Ramachandran plots. In this example we sample on all four dihedrals which is similar 
+to that reported in [Stecher, T., Bernstein, N., & Csányi, G. (2014). JCTC, 10(9), 4079–4097.](https://doi.org/10.1021/ct500438v) except in our example we use the Amber99sb forcefield as
+opposed to CHARMM. We use a (24, 20) network with a 20x20x20x20 grid and a sweep length of 20 ps.
+The FELs projected onto the two Ramachandran plots are shown below. 
+
+<img src="alanine_tripeptide/tripeptide_fes.png">
+
+The FEL converges somewhere around the 15-20 nanosecond mark which is quite remarkable for 
+a 4D landscape. In comparison, Gaussian process regression umbrella sampling required a 
+combined 1.3 microseconds to converge. Also, as a point of reference, the *three* dimensional 
+FEL for ala3 took 50-100 nanoseconds to converge using VES.  
+
+## Remarks 
+
+Hopefully these examples has made it abundantly clear how powerful ANN sampling can be, 
+how forgiving it is to the end user, its dramatically fast convergence and how it is well 
+suited for expensive simulations or less-than-deal CVs. We hope ANN sampling becomes a staple
+advanced sampling routine in the molecular modeler's toolkit. For more information on the 
+method itself and a discussion of the results shown above, refer to the publication. 
